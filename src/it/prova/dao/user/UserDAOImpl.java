@@ -196,16 +196,42 @@ public class UserDAOImpl extends AbstractMySQLDAO implements UserDAO {
 
 	@Override
 	public List<User> findAllByCognome(String cognomeInput) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+
+		if (isNotActive())
+			throw new Exception("Connessione non attiva. Impossibile effettuare operazioni DAO.");
+
+		if (cognomeInput == null)
+			throw new Exception("Valore di input non ammesso.");
+
+		ArrayList<User> result = new ArrayList<User>();
+
+		try (PreparedStatement ps = connection.prepareStatement("select * from user where cognome like ? ;")) {
+			// quando si fa il setDate serve un tipo java.sql.Date
+			ps.setString(1, cognomeInput);
+
+			try (ResultSet rs = ps.executeQuery();) {
+				while (rs.next()) {
+					User userTemp = new User();
+					userTemp.setNome(rs.getString("NOME"));
+					userTemp.setCognome(rs.getString("COGNOME"));
+					userTemp.setLogin(rs.getString("LOGIN"));
+					userTemp.setPassword(rs.getString("PASSWORD"));
+					userTemp.setDateCreated(
+							rs.getDate("DATECREATED") != null ? rs.getDate("DATECREATED").toLocalDate() : null);
+					userTemp.setId(rs.getLong("ID"));
+					result.add(userTemp);
+				}
+			} // niente catch qui
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+		return result;
+		
 	}
 
-	@Override
-	public List<User> findAllByLoginIniziaCon(String caratteriInizialiInput) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 	@Override
 	public User findByLoginAndPassword(String loginInput, String passwordInput) throws Exception {
 		// TODO Auto-generated method stub

@@ -24,19 +24,21 @@ public class TestUser {
 			// ecco chi 'inietta' la connection: il chiamante
 			userDAOInstance = new UserDAOImpl(connection);
 
-	//		System.out.println("In tabella user ci sono " + userDAOInstance.list().size() + " elementi.");
+//			System.out.println("In tabella user ci sono " + userDAOInstance.list().size() + " elementi.");
 
-	//		testInsertUser(userDAOInstance);
-	//		System.out.println("In tabella user ci sono " + userDAOInstance.list().size() + " elementi.");
+//			testInsertUser(userDAOInstance);
+//			System.out.println("In tabella user ci sono " + userDAOInstance.list().size() + " elementi.");
 
-	//		testFindById(userDAOInstance);
+//			testFindById(userDAOInstance);
 
-	//		testDeleteUser(userDAOInstance);
-	//		System.out.println("In tabella user ci sono " + userDAOInstance.list().size() + " elementi.");
+//			testDeleteUser(userDAOInstance);
+//			System.out.println("In tabella user ci sono " + userDAOInstance.list().size() + " elementi.");
 
-	//		testFindAllWhereDateCreatedGreaterThan(userDAOInstance);
-	//		System.out.println("In tabella user ci sono " + userDAOInstance.list().size() + " elementi.");
+//			testFindAllWhereDateCreatedGreaterThan(userDAOInstance);
+//			System.out.println("In tabella user ci sono " + userDAOInstance.list().size() + " elementi.");
 
+			TestFindByCognome(userDAOInstance);
+			
 			// ESERCIZIO SUCCESSIVO: implementare metodi mancanti nel DAO
 
 		} catch (Exception e) {
@@ -125,4 +127,17 @@ public class TestUser {
 		System.out.println(".......testFindAllWhereDateCreatedGreaterThan fine: PASSED.............");
 	}
 
+	private static void TestFindByCognome(UserDAO userDAOInstance) throws Exception {
+
+		System.out.println("######################## TEST PER VERIFICA DATI ###############");
+		List<User> personeConQuelCognome = userDAOInstance.findAllByCognome("R");
+
+		for (User userItem : personeConQuelCognome) {
+			System.out.println(userItem);
+
+		}
+
+	}
+			
+	
 }
